@@ -1,6 +1,19 @@
 {
   "name": "rectitle",
-  "version": "0.0.1",
+  "description": "Dynamic HTML 5 Canvas title component with masking",
+  "homepage": "https://github.com/interactive-pioneers/rectitle",
+  "author": {
+    "name": "Ain Tohvri",
+    "email": "at@interactive-pioneers.de"
+  },
+  "contributors": [
+    {
+      "name": "Ain Tohvri",
+      "email": "at@interactive-pioneers.de"
+    }
+  ],
+  "bugs": "https://github.com/interactive-pioneers/rectitle/issues",
+  "version": "0.0.2",
   "dependencies": {},
   "devDependencies": {
     "grunt": "~0.4.1",
@@ -17,9 +30,28 @@
     "jit-grunt": "~0.2.1",
     "time-grunt": "~0.2.9",
     "grunt-concurrent": "~0.5.0"
-
   },
   "engines": {
     "node": ">=0.10.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/interactive-pioneers/rectitle.git"
+  },
+  "licenses": [
+    {
+      "type": "GPL",
+      "url": "https://github.com/ain/assetmanager-js/blob/master/LICENSE-GPL"
+    }
+  ],
+  "scripts": {
+    "test": "grunt travis --verbose"
+  },
+  "keywords": [
+    "html5",
+    "canvas",
+    "title",
+    "headline",
+    "mask"
+  ]
 }
