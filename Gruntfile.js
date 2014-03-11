@@ -9,7 +9,6 @@ module.exports = function (grunt) {
   require('jit-grunt')(grunt, {
   });
 
-
   grunt.initConfig({
     yeoman: {
       src: 'src',
@@ -20,11 +19,11 @@ module.exports = function (grunt) {
     watch: {
       styles: {
         files: ['<%= yeoman.app %>/styles/{,*/}*.css'],
-        tasks: ['copy:styles', 'autoprefixer']
+        tasks: ['concurrent:server']
       },
-      script: {
+      src: {
         files: ['<%= yeoman.src %>/rectitle.js'],
-        tasks: ['uglify', 'concurrent:script']
+        tasks: ['copy:app', 'concurrent:qa']
       },
       livereload: {
         options: {
@@ -95,9 +94,9 @@ module.exports = function (grunt) {
     mocha: {
       all: {
         options: {
-          run: true,
-          urls: ['http://<%= connect.test.options.hostname %>:<%= connect.test.options.port %>/index.html']
-        }
+          run: true
+        },
+        src: ['test/index.html']
       }
     },
     autoprefixer: {
@@ -114,26 +113,9 @@ module.exports = function (grunt) {
       }
     },
     copy: {
-      dist: {
-        files: [{
-          expand: true,
-          dot: true,
-          cwd: '<%= yeoman.app %>',
-          dest: '<%= yeoman.dist %>',
-          src: [
-            '*.{ico,png,txt}',
-            '.htaccess',
-            'images/{,*/}*.{webp,gif}',
-            'styles/fonts/{,*/}*.*'
-          ]
-        }]
-      },
-      styles: {
-        expand: true,
-        dot: true,
-        cwd: '<%= yeoman.app %>/styles',
-        dest: '.tmp/styles/',
-        src: '{,*/}*.css'
+      app: {
+        src: '<%= yeoman.src %>/rectitle.js',
+        dest: '<%= yeoman.app %>/scripts/rectitle.js'
       }
     },
     modernizr: {
@@ -149,6 +131,8 @@ module.exports = function (grunt) {
     concurrent: {
       server: {
         tasks: [
+          'modernizr',
+          'autoprefixer'
         ]
       },
       qa: {
@@ -156,6 +140,13 @@ module.exports = function (grunt) {
           'jshint',
           'mocha'
         ]
+      }
+    },
+    uglify: {
+      dist: {
+        files: {
+          'dist/rectitle.min.js': 'src/rectitle.js'
+        }
       }
     }
   });
@@ -166,28 +157,19 @@ module.exports = function (grunt) {
     }
     grunt.task.run([
       'clean:server',
-      'autoprefixer',
+      'copy:app',
+      'concurrent:server',
       'connect:livereload',
       'watch'
     ]);
   });
 
-  grunt.registerTask('test', [
-    'clean:server',
-    'concurrent:test',
-    'autoprefixer',
-    'connect:test',
-    'mocha'
-  ]);
+  grunt.registerTask('test', ['concurrent:qa']);
 
   grunt.registerTask('build', [
     'clean:dist',
-    'concurrent:dist',
-    'autoprefixer',
-    'uglify',
-    'modernizr',
-    'copy:dist',
-    'concurrent:qa'
+    'copy:app',
+    'uglify'
   ]);
 
   grunt.registerTask('default', ['build']);
