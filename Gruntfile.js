@@ -22,6 +22,10 @@ module.exports = function (grunt) {
         files: ['<%= yeoman.app %>/styles/{,*/}*.css'],
         tasks: ['copy:styles', 'autoprefixer']
       },
+      script: {
+        files: ['<%= yeoman.src %>/rectitle.js'],
+        tasks: ['uglify', 'concurrent:script']
+      },
       livereload: {
         options: {
           livereload: '<%= connect.options.livereload %>'
@@ -142,6 +146,18 @@ module.exports = function (grunt) {
       ],
       uglify: true
     },
+    concurrent: {
+      server: {
+        tasks: [
+        ]
+      },
+      qa: {
+        tasks: [
+          'jshint',
+          'mocha'
+        ]
+      }
+    }
   });
 
   grunt.registerTask('server', function (target) {
@@ -174,7 +190,7 @@ module.exports = function (grunt) {
     'concurrent:qa'
   ]);
 
-  grunt.registerTask('default', [
-    'build'
-  ]);
+  grunt.registerTask('default', ['build']);
+
+  grunt.registerTask('travis', ['concurrent:qa']);
 };
