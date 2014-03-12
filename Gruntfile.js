@@ -17,16 +17,18 @@ module.exports = function (grunt) {
       pkg: grunt.file.readJSON('package.json')
     },
     watch: {
-      styles: {
-        files: ['<%= yeoman.app %>/styles/{,*/}*.css'],
-        tasks: ['concurrent:server']
+      server: {
+        files: [
+          '<%= yeoman.app %>/styles/{,*/}*.css',
+          '<%= yeoman.src %>/rectitle.js'
+        ],
+        tasks: ['copy:app', 'concurrent:server']
       },
-      src: {
-        files: ['<%= yeoman.src %>/rectitle.js'],
-        tasks: ['copy:app', 'concurrent:qa']
-      },
-      test: {
-        files: ['test/spec/test.js'],
+      bdd: {
+        files: [
+          '<%= yeoman.src %>/rectitle.js',
+          'test/spec/test.js'
+        ],
         tasks: ['mocha']
       },
       livereload: {
@@ -90,7 +92,7 @@ module.exports = function (grunt) {
       },
       all: [
         'Gruntfile.js',
-        '<%= yeoman.app %>/scripts/{,*/}*.js',
+        '<%= yeoman.src %>/{,*/}*.js',
         '!<%= yeoman.app %>/scripts/vendor/*',
         'test/spec/{,*/}*.js'
       ]
@@ -151,11 +153,14 @@ module.exports = function (grunt) {
     if (target === 'dist') {
       return grunt.task.run(['build', 'connect:dist:keepalive']);
     }
+    else if (target == 'bdd') {
+      return grunt.task.run(['watch:bdd']);
+    }
     grunt.task.run([
       'clean:server',
       'concurrent:server',
       'connect:livereload',
-      'watch'
+      'watch:server'
     ]);
   });
 
