@@ -126,6 +126,12 @@ module.exports = function (grunt) {
           'jshint',
           'mocha'
         ]
+      },
+      build: {
+        tasks: [
+          'copy:app',
+          'uglify'
+        ]
       }
     },
     uglify: {
@@ -154,8 +160,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', [
     'clean:dist',
-    'copy:app',
-    'uglify'
+    'concurrent:build'
   ]);
 
   grunt.registerTask('default', ['build']);
