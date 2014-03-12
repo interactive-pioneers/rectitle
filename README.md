@@ -7,6 +7,9 @@ __Work in progress__. No release just yet.
 ## Installation
 `bower install rectitle` (Bower release upcoming).
 
+## Dependencies
+- Modernizr
+
 ## Contributions
 ### Setup
 1. `npm i` to install Node.js dependencies
