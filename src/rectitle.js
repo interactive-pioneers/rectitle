@@ -21,6 +21,8 @@ function RecTitle(options) {
     id: null
   };
   this.view = null;
+  this._target = null;
+  this._text = null;
   this._init(options);
   return this;
 }
@@ -28,7 +30,6 @@ function RecTitle(options) {
 RecTitle.prototype._init = function(options) {
   this.options = this._merge(options, this.defaults);
   this._initView();
-  //this._build();
 };
 
 RecTitle.prototype._initView = function() {
@@ -39,18 +40,68 @@ RecTitle.prototype._initView = function() {
   }
 };
 
-RecTitle.prototype._build = function() {
-//  this.view.setAttribute('width', this.options.width);
-};
+/*RecTitle.prototype._build = function() {
+  return true;
+};*/
 
 RecTitle.prototype.render = function(target) {
-  if (target && target.tagName) {
-    // TODO implement canvas build
-    return true;
+  this.setTarget(target);
+  var textWidth = this.getTextWidth(this.getText());
+  var viewWidth = textWidth + this.options.backgroundPadding.left + this.options.backgroundPadding.right;
+  var viewHeight = this.options.fontSize + this.options.backgroundPadding.top + this.options.backgroundPadding.bottom;
+  this.view.setAttribute('width', viewWidth);
+  this.view.setAttribute('height', viewHeight);
+  return true;
+};
+
+
+RecTitle.prototype.getTextWidth = function(text) {
+  var canvas = document.createElement('canvas');
+  var width = 3072;
+  var height = this.options.fontSize + 10;
+  canvas.setAttribute('width', width);
+  canvas.setAttribute('height', height);
+  var context = canvas.getContext('2d');
+  context.font = this.options.fontSize + 'px ' + this.options.fontFamily;
+  context.textAlign = 'center';
+  context.fillStyle = 'black';
+  context.fillText(text, width * 0.5, height * 0.5);
+  return context.measureText().width;
+};
+
+RecTitle.prototype.setText = function(text) {
+  if (typeof text === 'string' && text.length > 0) {
+    this._text = text;
   }
   else {
-    throw new TypeError('HTMLElement expected for rendering!');
+    throw new TypeError('Invalid text object, non-zero string expected!');
   }
+  return this._text;
+};
+
+RecTitle.prototype.getText = function() {
+  if (this._text) {
+    return this._text;
+  }
+  else {
+    var text = this.getTarget().textContent || this.getTarget().innerText;
+    return this.setText(text);
+  }
+};
+
+
+RecTitle.prototype.setTarget = function(target) {
+  if (target && target.tagName) {
+    this._target = target;
+  }
+  else {
+    throw new TypeError('HTMLElement expected for target!');
+  }
+  return this._target;
+};
+
+RecTitle.prototype.getTarget = function() {
+  return this._target;
 };
 
 /**

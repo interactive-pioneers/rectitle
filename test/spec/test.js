@@ -42,6 +42,7 @@
 
       var headline = document.createElement('h2');
       var major = document.createElement('span');
+      var text = document.createTextNode('Hello World!');
       major.setAttribute('class', 'cutout');
       major.setAttribute('data-fontsize', 35);
       headline.appendChild(major);
@@ -62,19 +63,31 @@
       it('expected to have target defined for testing', function() {
         return expect(target).to.exist;
       });
-      it('expected to fail without target', function() {
-        return expect(rectitle.render).to.throw(Error);
+      it('expected to throw TypeError without target', function() {
+        return expect(rectitle.render).to.throw(TypeError);
       });
-      it('expected to fail on invalid target', function() {
+      it('expected to throw TypeError on non-HTML target', function() {
         var test = function() {
           var fakeTarget = {name: 'fakeObject'};
           rectitle.render(fakeTarget);
         };
         return expect(test).to.throw(TypeError);
       });
-      it('expected to succeed on valid target', function() {
-        return expect(rectitle.render(target)).to.be.ok;
+      it('expected to throw TypeError on empty target', function() {
+        var test = function() {
+          rectitle.render(target);
+        };
+        return expect(test).to.throw(TypeError);
       });
+      it('expected to calculate non-zero text width', function() {
+        return expect(rectitle.getTextWidth('Hello world')).to.be.above(1);
+      });
+      it('expected to get text from non-empty target', function() {
+        target.appendChild(text);
+        rectitle.setTarget(target);
+        return expect(rectitle.getText()).to.be.not.empty;
+      });
+
     });
 
   });
