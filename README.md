@@ -11,4 +11,4 @@ __Work in progress__. No release just yet.
 ### Setup
 1. `npm i` to install Node.js dependencies
 2. `bower install` to install Bower dependencies
-3. `grunt server` to run server which runs QA and tests automatically whenever `src/rectitle.js` is changed.
+3. `grunt server:bdd` to run server which runs tests automatically whenever `src/rectitle.js` is changed.
