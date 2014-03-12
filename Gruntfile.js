@@ -25,6 +25,10 @@ module.exports = function (grunt) {
         files: ['<%= yeoman.src %>/rectitle.js'],
         tasks: ['copy:app', 'concurrent:qa']
       },
+      test: {
+        files: ['test/spec/test.js'],
+        tasks: ['mocha']
+      },
       livereload: {
         options: {
           livereload: '<%= connect.options.livereload %>'
@@ -155,7 +159,7 @@ module.exports = function (grunt) {
     ]);
   });
 
-  grunt.registerTask('test', ['concurrent:qa']);
+  grunt.registerTask('test', ['mocha']);
   grunt.registerTask('qa', ['concurrent:qa']);
 
   grunt.registerTask('build', [
