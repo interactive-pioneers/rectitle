@@ -99,19 +99,6 @@ module.exports = function (grunt) {
         src: ['test/index.html']
       }
     },
-    autoprefixer: {
-      options: {
-        browsers: ['last 1 version']
-      },
-      dist: {
-        files: [{
-          expand: true,
-          cwd: '.tmp/styles/',
-          src: '{,*/}*.css',
-          dest: '.tmp/styles/'
-        }]
-      }
-    },
     copy: {
       app: {
         src: '<%= yeoman.src %>/rectitle.js',
@@ -132,7 +119,6 @@ module.exports = function (grunt) {
       server: {
         tasks: [
           'modernizr',
-          'autoprefixer'
         ]
       },
       qa: {
