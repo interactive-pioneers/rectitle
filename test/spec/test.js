@@ -7,7 +7,13 @@
     var config = {
       fontFamily: 'Arial',
       fontSize: 12,
-      id: 'rectitle-007'
+      id: 'rectitle-007',
+      backgroundPadding: {
+        left: 15,
+        top: 15,
+        right: 15,
+        bottom: 15
+      }
     };
     var rectitle;
 
@@ -18,14 +24,17 @@
       it('expected to construct object', function () {
         return expect(rectitle).to.be.an.object;
       });
-      it('expected to set font size to 12', function() {
+      it('expected to set font size to ' + config.fontSize, function() {
         return expect(rectitle.options.fontSize).to.equal(config.fontSize);
       });
-      it('expected to set font family to Arial', function() {
+      it('expected to set font family to ' + config.fontFamily, function() {
         return expect(rectitle.options.fontFamily).to.equal(config.fontFamily);
       });
-      it('expected to set element ID', function() {
+      it('expected to set element ID to ' + config.id, function() {
         return expect(rectitle.view.getAttribute('id')).to.equal(config.id);
+      });
+      it('expected to have background padding set to ' + config.backgroundPadding.toString(), function() {
+        return expect(rectitle.options.backgroundPadding).to.equal(config.backgroundPadding);
       });
     });
 

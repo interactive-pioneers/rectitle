@@ -68,5 +68,3 @@ RecTitle.prototype._merge = function(source, target) {
   }
   return target;
 };
-
-
