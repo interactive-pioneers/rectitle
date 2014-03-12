@@ -107,11 +107,11 @@ module.exports = function (grunt) {
     },
     modernizr: {
       devFile: '<%= yeoman.app %>/bower_components/modernizr/modernizr.js',
-      outputFile: '<%= yeoman.dist %>/bower_components/modernizr/modernizr.js',
+      outputFile: '<%= yeoman.app %>/scripts/vendor/modernizr/modernizr.js',
       files: [
-        '<%= yeoman.dist %>/scripts/{,*/}*.js',
-        '<%= yeoman.dist %>/styles/{,*/}*.css',
-        '!<%= yeoman.dist %>/scripts/vendor/*'
+        '<%= yeoman.app %>/scripts/{,*/}*.js',
+        '<%= yeoman.app %>/styles/{,*/}*.css',
+        '!<%= yeoman.app %>/scripts/vendor/*'
       ],
       uglify: true
     },
@@ -157,6 +157,7 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask('test', ['concurrent:qa']);
+  grunt.registerTask('qa', ['concurrent:qa']);
 
   grunt.registerTask('build', [
     'clean:dist',
