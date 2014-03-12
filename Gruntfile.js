@@ -32,7 +32,7 @@ module.exports = function (grunt) {
         files: [
           '<%= yeoman.app %>/*.html',
           '<%= yeoman.app %>/styles/{,*/}*.css',
-          '<%= yeoman.app %>/scripts/{,*/}*.js',
+          '<%= yeoman.src %>/{,*/}*.js',
           '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
         ]
       }
@@ -109,16 +109,16 @@ module.exports = function (grunt) {
       devFile: '<%= yeoman.app %>/bower_components/modernizr/modernizr.js',
       outputFile: '<%= yeoman.app %>/scripts/vendor/modernizr/modernizr.js',
       files: [
-        '<%= yeoman.app %>/scripts/{,*/}*.js',
-        '<%= yeoman.app %>/styles/{,*/}*.css',
-        '!<%= yeoman.app %>/scripts/vendor/*'
+        '<%= yeoman.src %>/{,*/}*.js',
+        '<%= yeoman.app %>/styles/{,*/}*.css'
       ],
       uglify: true
     },
     concurrent: {
       server: {
         tasks: [
-          'modernizr',
+          'copy:app',
+          'modernizr'
         ]
       },
       qa: {
@@ -149,7 +149,6 @@ module.exports = function (grunt) {
     }
     grunt.task.run([
       'clean:server',
-      'copy:app',
       'concurrent:server',
       'connect:livereload',
       'watch'
