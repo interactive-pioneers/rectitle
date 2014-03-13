@@ -110,7 +110,7 @@ RecTitle.prototype.getText = function() {
     return this._text;
   }
   else {
-    var text = this.getTarget().textContent || this.getTarget().innerText;
+    var text = this.getTarget().textContent;
     return this.setText(text);
   }
 };
