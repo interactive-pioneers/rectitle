@@ -18,11 +18,20 @@ function RecTitle(options) {
       right: 10,
       bottom: 10
     },
+    transformMatrix: {
+      m11: 0,
+      m12: 0,
+      m21: 0,
+      m22: 0,
+      dx: 0,
+      dy: 0
+    },
     id: null
   };
   this.view = null;
   this._target = null;
   this._text = null;
+  this._dimensions = {width: null, height: null};
   this._init(options);
   return this;
 }
@@ -40,20 +49,37 @@ RecTitle.prototype._initView = function() {
   }
 };
 
-/*RecTitle.prototype._build = function() {
-  return true;
-};*/
+RecTitle.prototype._draw = function() {
+  var context = this.view.getContext('2d');
+  context.font = this.options.fontSize + 'px ' + this.options.fontFamily;
+  context.fillStyle = this.options.backgroundColor;
+  context.setTransform(this.options.transformMatrix.m11, this.options.transformMatrix.m12, this.options.transformMatrix.m21, this.options.transformMatrix.m22, this.options.transformMatrix.dx, this.options.transformMatrix.dy);
+  context.fillRect(0, 0, this._dimensions.width, this._dimensions.height);
+  if (this.options.fontMask === true) {
+    context.globalCompositeOperation = 'destination-out';
+  };
+  context.fillText(this.getText(), this.options.backgroundPadding.left, this.options.backgroundPadding.top);
+  return context;
+};
 
 RecTitle.prototype.render = function(target) {
   this.setTarget(target);
-  var textWidth = this.getTextWidth(this.getText());
-  var viewWidth = textWidth + this.options.backgroundPadding.left + this.options.backgroundPadding.right;
-  var viewHeight = this.options.fontSize + this.options.backgroundPadding.top + this.options.backgroundPadding.bottom;
-  this.view.setAttribute('width', viewWidth);
-  this.view.setAttribute('height', viewHeight);
-  return true;
+  this._dimensions = this._calculateDimensions();
+  this.view.setAttribute('width', dimensions.width);
+  this.view.setAttribute('height', dimensions.height);
+  if (this._draw()) {
+    this.getTarget().innerHTML('');
+    return this.getTarget().appendChild(this.view);
+  }
+  return false;
 };
 
+RecTitle.prototype._calculateDimensions = function() {
+  var textWidth = this.getTextWidth(this.getText());
+  var width = textWidth + this.options.backgroundPadding.left + this.options.backgroundPadding.right;
+  var height = this.options.fontSize + this.options.backgroundPadding.top + this.options.backgroundPadding.bottom;
+  return {width: width, height: height};
+};
 
 RecTitle.prototype.getTextWidth = function(text) {
   var canvas = document.createElement('canvas');

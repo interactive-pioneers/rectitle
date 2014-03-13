@@ -87,7 +87,13 @@
         rectitle.setTarget(target);
         return expect(rectitle.getText()).to.be.not.empty;
       });
-
+      it('expected to render canvas object', function() {
+        target.appendChild(text);
+        var test = function() {
+          rectitle.render(target);
+        };
+        return expect(test).to.be.object;
+      });
     });
 
   });
