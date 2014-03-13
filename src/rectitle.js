@@ -57,7 +57,7 @@ RecTitle.prototype._draw = function() {
   context.fillRect(0, 0, this._dimensions.width, this._dimensions.height);
   if (this.options.fontMask === true) {
     context.globalCompositeOperation = 'destination-out';
-  };
+  }
   context.fillText(this.getText(), this.options.backgroundPadding.left, this.options.backgroundPadding.top);
   return context;
 };
@@ -65,8 +65,8 @@ RecTitle.prototype._draw = function() {
 RecTitle.prototype.render = function(target) {
   this.setTarget(target);
   this._dimensions = this._calculateDimensions();
-  this.view.setAttribute('width', dimensions.width);
-  this.view.setAttribute('height', dimensions.height);
+  this.view.setAttribute('width', this._dimensions.width);
+  this.view.setAttribute('height', this._dimensions.height);
   if (this._draw()) {
     this.getTarget().innerHTML('');
     return this.getTarget().appendChild(this.view);
