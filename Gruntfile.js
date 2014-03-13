@@ -17,28 +17,21 @@ module.exports = function (grunt) {
       pkg: grunt.file.readJSON('package.json')
     },
     watch: {
-      server: {
-        files: [
-          '<%= yeoman.app %>/styles/{,*/}*.css',
-          '<%= yeoman.src %>/rectitle.js'
-        ],
-        tasks: ['copy:app', 'concurrent:server']
-      },
-      bdd: {
+      /*bdd: {
         files: [
           '<%= yeoman.src %>/rectitle.js',
           'test/spec/test.js'
         ],
         tasks: ['mocha']
-      },
+      },*/
       livereload: {
         options: {
           livereload: '<%= connect.options.livereload %>'
         },
         files: [
-          '<%= yeoman.app %>/*.html',
-          '<%= yeoman.app %>/styles/{,*/}*.css',
-          '<%= yeoman.src %>/{,*/}*.js',
+          '<%= yeoman.app %>/index.html',
+          '<%= yeoman.app %>/styles/main.css',
+          '<%= yeoman.src %>/rectitle.js',
           '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
         ]
       }
@@ -48,13 +41,12 @@ module.exports = function (grunt) {
         port: 9000,
         livereload: 35729,
         // change this to '0.0.0.0' to access the server from outside
-        hostname: 'localhost'
+        hostname: '0.0.0.0'
       },
       livereload: {
         options: {
           open: true,
           base: [
-            '<%= yeoman.src %>',
             '<%= yeoman.app %>'
           ]
         }
@@ -84,7 +76,7 @@ module.exports = function (grunt) {
           ]
         }]
       },
-      server: '.tmp'
+      server: '<%= yeoman.app %>/scripts/**'
     },
     jshint: {
       options: {
@@ -124,7 +116,7 @@ module.exports = function (grunt) {
       server: {
         tasks: [
           'copy:app',
-          'modernizr'
+          //'modernizr'
         ]
       },
       qa: {
@@ -160,7 +152,7 @@ module.exports = function (grunt) {
       'clean:server',
       'concurrent:server',
       'connect:livereload',
-      'watch:server'
+      'watch'
     ]);
   });
 
