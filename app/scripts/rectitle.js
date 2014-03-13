@@ -68,10 +68,17 @@ RecTitle.prototype.render = function(target) {
   this.view.setAttribute('width', this._dimensions.width);
   this.view.setAttribute('height', this._dimensions.height);
   if (this._draw()) {
-    this.getTarget().innerHTML('');
-    return this.getTarget().appendChild(this.view);
+    return this.emptyTarget().appendChild(this.view);
   }
   return false;
+};
+
+RecTitle.prototype.emptyTarget = function() {
+  var target = this.getTarget();
+  while (target.firstChild) {
+    target.removeChild(target.firstChild);
+  };
+  return target;
 };
 
 RecTitle.prototype._calculateDimensions = function() {
@@ -92,7 +99,7 @@ RecTitle.prototype.getTextWidth = function(text) {
   context.textAlign = 'center';
   context.fillStyle = 'black';
   context.fillText(text, width * 0.5, height * 0.5);
-  return context.measureText().width;
+  return context.measureText(text).width;
 };
 
 RecTitle.prototype.setText = function(text) {

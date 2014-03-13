@@ -94,6 +94,12 @@
         };
         return expect(test).to.be.object;
       });
+      it('expected to empty the target', function() {
+        target.appendChild(text);
+        target.appendChild(text);
+        rectitle.setTarget(target);
+        return expect(rectitle.emptyTarget().innerHTML).to.be.empty;
+      });
     });
 
   });
