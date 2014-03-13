@@ -77,7 +77,7 @@ RecTitle.prototype.emptyTarget = function() {
   var target = this.getTarget();
   while (target.firstChild) {
     target.removeChild(target.firstChild);
-  };
+  }
   return target;
 };
 
