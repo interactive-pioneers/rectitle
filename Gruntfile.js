@@ -17,6 +17,12 @@ module.exports = function (grunt) {
       pkg: grunt.file.readJSON('package.json')
     },
     watch: {
+      server: {
+        files: [
+          '<%= yeoman.src %>/rectitle.js'
+        ],
+        tasks: ['copy:app']
+      },
       bdd: {
         files: [
           '<%= yeoman.src %>/rectitle.js',
