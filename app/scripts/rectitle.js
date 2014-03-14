@@ -54,13 +54,27 @@ RecTitle.prototype._draw = function() {
   var context = this.view.getContext('2d');
   context.font = this.options.fontSize + 'px ' + this.options.fontFamily;
   context.fillStyle = this.options.backgroundColor;
-  context.setTransform(this.options.transformMatrix.m11, this.options.transformMatrix.m12, this.options.transformMatrix.m21, this.options.transformMatrix.m22, this.options.transformMatrix.dx, this.options.transformMatrix.dy);
+  if (this.hasTransformMatrix()) {
+    context.setTransform(this.options.transformMatrix.m11, this.options.transformMatrix.m12, this.options.transformMatrix.m21, this.options.transformMatrix.m22, this.options.transformMatrix.dx, this.options.transformMatrix.dy);
+  }
   context.fillRect(0, 0, this._dimensions.width, this._dimensions.height);
   if (this.options.fontMask === true) {
     context.globalCompositeOperation = 'destination-out';
   }
-  context.fillText(this.getText(), this.options.backgroundPadding.left, this.options.backgroundPadding.top);
+  else {
+    context.fillStyle = this.options.fontColor;
+  }
+  context.fillText(this.getText(), this.options.backgroundPadding.left, this.options.backgroundPadding.top + this.options.fontSize);
   return context;
+};
+
+RecTitle.prototype.hasTransformMatrix = function() {
+  for (var i in this.options.transformMatrix) {
+    if (this.options.transformMatrix[i] !== 0) {
+      return true;
+    }
+  }
+  return false;
 };
 
 RecTitle.prototype.render = function(target) {
