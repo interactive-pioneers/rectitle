@@ -17,13 +17,13 @@ module.exports = function (grunt) {
       pkg: grunt.file.readJSON('package.json')
     },
     watch: {
-      /*bdd: {
+      bdd: {
         files: [
           '<%= yeoman.src %>/rectitle.js',
           'test/spec/test.js'
         ],
         tasks: ['mocha']
-      },*/
+      },
       livereload: {
         options: {
           livereload: '<%= connect.options.livereload %>'
@@ -116,7 +116,7 @@ module.exports = function (grunt) {
       server: {
         tasks: [
           'copy:app',
-          //'modernizr'
+          'modernizr'
         ]
       },
       qa: {
