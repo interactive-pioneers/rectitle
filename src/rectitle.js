@@ -10,7 +10,7 @@ function RecTitle(options) {
     fontColor: '#fff',
     fontMask: false,
     fontOpacity: 1,
-    backgroundColor: '#ccc',
+    backgroundColor: '#000',
     backgroundOpacity: 0.75,
     backgroundPadding: {
       left: 10,
@@ -26,6 +26,7 @@ function RecTitle(options) {
       dx: 0,
       dy: 0
     },
+    class: 'rectitle',
     id: null
   };
   this.view = null;
@@ -43,7 +44,7 @@ RecTitle.prototype._init = function(options) {
 
 RecTitle.prototype._initView = function() {
   this.view = document.createElement('canvas');
-  this.view.setAttribute('class', 'rectitle');
+  this.view.setAttribute('class', this.options.class);
   if (this.options.id) {
     this.view.setAttribute('id', this.options.id);
   }
@@ -68,7 +69,7 @@ RecTitle.prototype.render = function(target) {
   this.view.setAttribute('width', this._dimensions.width);
   this.view.setAttribute('height', this._dimensions.height);
   if (this._draw()) {
-    return this.emptyTarget().appendChild(this.view);
+    return document.body.appendChild(this.view);
   }
   return false;
 };
