@@ -16,10 +16,21 @@
   <h1>Headline</h1>
   <script src="scripts/rectitle.js"></script>
   <script>
-    console.log('restarted', new Date().getTime());
-    var headline = document.getElementsByTagName('h1')[0];
-    var rectitle = new RecTitle();
-    rectitle.render(headline);
+    var heading = document.getElementsByTagName('h1')[0];
+    var config = {
+      backgroundColor: '#000',
+      fontMask: true,
+      transformMatrix: {
+        m11: 1,
+        m12: -0.05,
+        m21: 0,
+        m22: 1,
+        dx: 0,
+        dy: 0
+      }
+    };
+    var rectitle = new RecTitle(config);
+    rectitle.render(heading);
   </script>
 </body>
 </html>
