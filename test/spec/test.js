@@ -2,7 +2,6 @@
 /* jshint undef: false */
 (function () {
   describe('rectitle', function () {
-    //var expect = chai.expect;
 
     var config = {
       fontFamily: 'Arial',
