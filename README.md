@@ -10,8 +10,11 @@ __Work in progress__. No release just yet.
 ## Dependencies
 - Modernizr
 
-## Supported browsers
-__TBD__
+## Minimum browser requirements
+- Internet Explorer 9
+- Safari 7
+- Google Chrome 33
+- Mozilla Firefox 9
 
 ## Contributions
 Contributions are regulated as regular, fork, create a contribution-specific branch and send a Pull Request.
