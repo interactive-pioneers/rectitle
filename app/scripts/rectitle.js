@@ -83,7 +83,7 @@ RecTitle.prototype.render = function(target) {
   this.view.setAttribute('width', this._dimensions.width);
   this.view.setAttribute('height', this._dimensions.height);
   if (this._draw()) {
-    return document.body.appendChild(this.view);
+    return this.emptyTarget().appendChild(this.view);
   }
   return false;
 };

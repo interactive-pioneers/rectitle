@@ -116,6 +116,11 @@
         rectitle.setTarget(target);
         return expect(rectitle.emptyTarget().innerHTML).to.be.empty;
       });
+      it('expected to render canvas object replacing target', function() {
+        target.appendChild(text);
+        var renderedView = rectitle.render(target);
+        return expect(renderedView).to.equal(rectitle.view);
+      });
     });
 
   });
