@@ -109,20 +109,10 @@ module.exports = function (grunt) {
         dest: '<%= yeoman.app %>/scripts/rectitle.js'
       }
     },
-    modernizr: {
-      devFile: '<%= yeoman.app %>/bower_components/modernizr/modernizr.js',
-      outputFile: '<%= yeoman.app %>/scripts/vendor/modernizr/modernizr.js',
-      files: [
-        '<%= yeoman.src %>/{,*/}*.js',
-        '<%= yeoman.app %>/styles/{,*/}*.css'
-      ],
-      uglify: true
-    },
     concurrent: {
       server: {
         tasks: [
-          'copy:app',
-          'modernizr'
+          'copy:app'
         ]
       },
       qa: {
