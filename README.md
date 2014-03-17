@@ -7,9 +7,6 @@ __Work in progress__. No release just yet.
 ## Installation
 `bower install rectitle` (Bower release upcoming).
 
-## Dependencies
-- Modernizr
-
 ## Minimum browser requirements
 - Internet Explorer 9
 - Safari 7
