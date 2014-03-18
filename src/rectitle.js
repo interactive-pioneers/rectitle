@@ -14,9 +14,9 @@ function RecTitle(options) {
     backgroundOpacity: 0.75,
     backgroundPadding: {
       left: 10,
-      top: 10,
+      top: 0,
       right: 10,
-      bottom: 10
+      bottom: 0
     },
     transformMatrix: {
       m11: 0,
@@ -45,28 +45,12 @@ RecTitle.prototype._init = function(options) {
 RecTitle.prototype._initView = function() {
   this.view = document.createElement('canvas');
   this.view.setAttribute('class', this.options.class);
+  this.view.setAttribute('style', 'backrgound-color:transparent;');
   if (this.options.id) {
     this.view.setAttribute('id', this.options.id);
   }
 };
 
-RecTitle.prototype._draw = function() {
-  var context = this.view.getContext('2d');
-  context.font = this.options.fontSize + 'px ' + this.options.fontFamily;
-  context.fillStyle = this.options.backgroundColor;
-  if (this.hasTransformMatrix()) {
-    context.setTransform(this.options.transformMatrix.m11, this.options.transformMatrix.m12, this.options.transformMatrix.m21, this.options.transformMatrix.m22, this.options.transformMatrix.dx, this.options.transformMatrix.dy);
-  }
-  context.fillRect(0, 0, this._dimensions.width, this._dimensions.height);
-  if (this.options.fontMask === true) {
-    context.globalCompositeOperation = 'destination-out';
-  }
-  else {
-    context.fillStyle = this.options.fontColor;
-  }
-  context.fillText(this.getText(), this.options.backgroundPadding.left, this.options.backgroundPadding.top + this.options.fontSize);
-  return context;
-};
 
 RecTitle.prototype.hasTransformMatrix = function() {
   for (var i in this.options.transformMatrix) {
@@ -97,11 +81,62 @@ RecTitle.prototype.emptyTarget = function() {
 };
 
 RecTitle.prototype._calculateDimensions = function() {
-  var textWidth = this.getTextWidth(this.getText());
-  var width = textWidth + this.options.backgroundPadding.left + this.options.backgroundPadding.right;
+  var width = this.getTextWidth(this.getText()) + this.options.backgroundPadding.left + this.options.backgroundPadding.right;
   var height = this.options.fontSize + this.options.backgroundPadding.top + this.options.backgroundPadding.bottom;
-  return {width: width, height: height};
+  return this._getTransformedDimensions(width, height);
 };
+
+RecTitle.prototype._getTransformedDimensions = function(width, height) {
+  var dimensions = {
+    width: width,
+    height: height,
+    original: {
+      width: width,
+      height: height
+    },
+    shift: {
+      x: 0,
+      y: 0
+    }
+  };
+  //return dimensions;
+  var angle;
+  if (this.options.transformMatrix.m12 !== 0) {
+    angle = Math.atan(this.options.transformMatrix.m12);
+    dimensions.height = Math.abs(Math.tan(angle) * width) + height;
+    dimensions.shift.y = dimensions.height - dimensions.original.height;
+  }
+  // TODO fix skewing failing cut right-side
+  if (this.options.transformMatrix.m21 !== 0) {
+    angle = Math.atan(this.options.transformMatrix.m21);
+    var trialWidth = Math.tan(angle) * height;
+    dimensions.width = trialWidth * 2 + width;
+    //console.log('width', dimensions.width, Math.abs(Math.tan(angle) * height) );
+    if (Math.abs(trialWidth) !== trialWidth) {
+      dimensions.shift.x =  Math.tan(angle) * height;
+    }
+  }
+  return dimensions;
+};
+
+RecTitle.prototype._draw = function() {
+  var context = this.view.getContext('2d');
+  context.font = this.options.fontSize + 'px ' + this.options.fontFamily;
+  if (this.hasTransformMatrix()) {
+    context.transform(this.options.transformMatrix.m11, this.options.transformMatrix.m12, this.options.transformMatrix.m21, this.options.transformMatrix.m22, this.options.transformMatrix.dx, this.options.transformMatrix.dy);
+  }
+  context.fillStyle = this.options.backgroundColor;
+  context.fillRect(this._dimensions.shift.x, this._dimensions.shift.y, this._dimensions.width - this._dimensions.shift.x, this._dimensions.height - this._dimensions.shift.y);
+  if (this.options.fontMask === true) {
+    context.globalCompositeOperation = 'destination-out';
+  }
+  else {
+    context.fillStyle = this.options.fontColor;
+  }
+  context.fillText(this.getText(), this.options.backgroundPadding.left + this._dimensions.shift.x, this._dimensions.original.height - this.options.backgroundPadding.bottom);
+  return context;
+};
+
 
 RecTitle.prototype.getTextWidth = function(text) {
   var canvas = document.createElement('canvas');
