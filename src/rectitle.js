@@ -8,7 +8,7 @@ function RecTitle(options) {
     fontFamily: 'Helvetica',
     fontSize: 48,
     fontColor: '#fff',
-    fontMask: false,
+    mask: false,
     fontOpacity: 1,
     backgroundColor: '#000',
     backgroundOpacity: 0.75,
@@ -127,7 +127,7 @@ RecTitle.prototype._draw = function() {
   }
   context.fillStyle = this.options.backgroundColor;
   context.fillRect(this._dimensions.shift.x, this._dimensions.shift.y, this._dimensions.width - this._dimensions.shift.x, this._dimensions.height - this._dimensions.shift.y);
-  if (this.options.fontMask === true) {
+  if (this.options.mask === true) {
     context.globalCompositeOperation = 'destination-out';
   }
   else {
