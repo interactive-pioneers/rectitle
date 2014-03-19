@@ -106,6 +106,9 @@ RecTitle.prototype._getTransformedDimensions = function(width, height) {
 
 RecTitle.prototype._draw = function() {
   var context = this.view.getContext('2d');
+  if (this.options.opacity < 1) {
+    context.globalAlpha = this.options.opacity;
+  }
   context.font = this.options.fontSize + 'px ' + this.options.fontFamily;
   if (this.hasTransformMatrix()) {
     context.transform(this._transformMatrix.m11, this._transformMatrix.m12, this._transformMatrix.m21, this._transformMatrix.m22, this._transformMatrix.dx, this._transformMatrix.dy);
