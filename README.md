@@ -2,16 +2,17 @@
 
 Dynamic HTML 5 Canvas title component with masking.
 
-__Work in progress__. No release just yet.
-
 ## Installation
-`bower install rectitle` (Bower release upcoming).
+`bower install rectitle`
 
 ## Minimum browser requirements
 - Internet Explorer 9
 - Safari 7
 - Google Chrome 33
-- Mozilla Firefox 9
+- Mozilla Firefox 9i
+
+## Releases
+See [release tags](https://github.com/interactive-pioneers/rectitle/releases).
 
 ## Contributions
 Contributions are regulated as regular, fork, create a contribution-specific branch and send a Pull Request.
