@@ -13,7 +13,7 @@
     }
   ],
   "bugs": "https://github.com/interactive-pioneers/rectitle/issues",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "dependencies": {},
   "devDependencies": {
     "grunt": "~0.4.1",
