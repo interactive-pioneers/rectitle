@@ -9,7 +9,6 @@ function RecTitle(options) {
     fontSize: 48,
     fontColor: '#fff',
     mask: false,
-    fontOpacity: 1,
     backgroundColor: '#000',
     backgroundOpacity: 0.75,
     backgroundPadding: {
