@@ -1,6 +1,6 @@
 # rectitle [![Build Status](https://travis-ci.org/interactive-pioneers/rectitle.png?branch=master)](https://travis-ci.org/interactive-pioneers/rectitle) [![Bower version](https://badge.fury.io/bo/rectitle.png)](http://badge.fury.io/bo/rectitle) [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
 
-Dynamic HTML 5 Canvas title component with masking.
+Dynamic HTML 5 Canvas title component with horisontal skewing and masking.
 
 ## Installation
 `bower install rectitle`
@@ -9,7 +9,10 @@ Dynamic HTML 5 Canvas title component with masking.
 - Internet Explorer 9
 - Safari 7
 - Google Chrome 33
-- Mozilla Firefox 9i
+- Mozilla Firefox 9
+
+## Example
+_Coming soon_.
 
 ## Releases
 See [release tags](https://github.com/interactive-pioneers/rectitle/releases).
