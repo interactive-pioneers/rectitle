@@ -18,20 +18,14 @@ function RecTitle(options) {
       right: 10,
       bottom: 0
     },
-    transformMatrix: {
-      m11: 0,
-      m12: 0,
-      m21: 0,
-      m22: 0,
-      dx: 0,
-      dy: 0
-    },
+    horizontalSkew: 0,
     class: 'rectitle',
     id: null
   };
   this.view = null;
   this._target = null;
   this._text = null;
+  this._transformMatrix = null;
   this._dimensions = {width: null, height: null};
   this._init(options);
   return this;
@@ -39,6 +33,14 @@ function RecTitle(options) {
 
 RecTitle.prototype._init = function(options) {
   this.options = this._merge(options, this.defaults);
+  this._transformMatrix = {
+    m11: 1,
+    m12: this.options.horizontalSkew,
+    m21: 0,
+    m22: 1,
+    dx: 0,
+    dy: 0
+  };
   this._initView();
 };
 
@@ -51,14 +53,8 @@ RecTitle.prototype._initView = function() {
   }
 };
 
-
 RecTitle.prototype.hasTransformMatrix = function() {
-  for (var i in this.options.transformMatrix) {
-    if (this.options.transformMatrix[i] !== 0) {
-      return true;
-    }
-  }
-  return false;
+  return this._transformMatrix && (this._transformMatrix.m12 !== 0 || this._transformMatrix.m21 !== 0);
 };
 
 RecTitle.prototype.render = function(target) {
@@ -101,20 +97,10 @@ RecTitle.prototype._getTransformedDimensions = function(width, height) {
   };
   //return dimensions;
   var angle;
-  if (this.options.transformMatrix.m12 !== 0) {
-    angle = Math.atan(this.options.transformMatrix.m12);
+  if (this._transformMatrix.m12 !== 0) {
+    angle = Math.atan(this._transformMatrix.m12);
     dimensions.height = Math.abs(Math.tan(angle) * width) + height;
     dimensions.shift.y = dimensions.height - dimensions.original.height;
-  }
-  // TODO fix skewing failing cut right-side
-  if (this.options.transformMatrix.m21 !== 0) {
-    angle = Math.atan(this.options.transformMatrix.m21);
-    var trialWidth = Math.tan(angle) * height;
-    dimensions.width = trialWidth * 2 + width;
-    //console.log('width', dimensions.width, Math.abs(Math.tan(angle) * height) );
-    if (Math.abs(trialWidth) !== trialWidth) {
-      dimensions.shift.x =  Math.tan(angle) * height;
-    }
   }
   return dimensions;
 };
@@ -123,7 +109,7 @@ RecTitle.prototype._draw = function() {
   var context = this.view.getContext('2d');
   context.font = this.options.fontSize + 'px ' + this.options.fontFamily;
   if (this.hasTransformMatrix()) {
-    context.transform(this.options.transformMatrix.m11, this.options.transformMatrix.m12, this.options.transformMatrix.m21, this.options.transformMatrix.m22, this.options.transformMatrix.dx, this.options.transformMatrix.dy);
+    context.transform(this._transformMatrix.m11, this._transformMatrix.m12, this._transformMatrix.m21, this._transformMatrix.m22, this._transformMatrix.dx, this._transformMatrix.dy);
   }
   context.fillStyle = this.options.backgroundColor;
   context.fillRect(this._dimensions.shift.x, this._dimensions.shift.y, this._dimensions.width - this._dimensions.shift.x, this._dimensions.height - this._dimensions.shift.y);

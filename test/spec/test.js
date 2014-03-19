@@ -35,18 +35,11 @@
       it('expected to have background padding set to ' + config.backgroundPadding.toString(), function() {
         return expect(rectitle.options.backgroundPadding).to.equal(config.backgroundPadding);
       });
-      it('expected to not have transform matrix', function() {
+      it('expected to not set transform matrix', function() {
         return expect(rectitle.hasTransformMatrix()).to.be.not.ok;
       });
-      it('expected to have transform matrix', function() {
-        config.transformMatrix = {
-          m11: 1,
-          m12: -0.05,
-          m21: 0,
-          m22: 1,
-          dx: 0,
-          dy: 0
-        };
+      it('expected to set transform matrix', function() {
+        config.horizontalSkew = -0.05;
         rectitle = new RecTitle(config);
         return expect(rectitle.hasTransformMatrix()).to.be.ok;
       });
