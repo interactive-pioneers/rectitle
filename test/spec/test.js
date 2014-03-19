@@ -12,7 +12,8 @@
         top: 15,
         right: 15,
         bottom: 15
-      }
+      },
+      opacity: 0.8
     };
     var rectitle;
 
@@ -43,7 +44,9 @@
         rectitle = new RecTitle(config);
         return expect(rectitle.hasTransformMatrix()).to.be.ok;
       });
-
+      it('expected to set opacity', function() {
+        return expect(rectitle.options.opacity).to.equal(config.opacity);
+      });
     });
 
     describe('render', function() {

@@ -19,6 +19,7 @@ function RecTitle(options) {
       bottom: 0
     },
     horizontalSkew: 0,
+    opacity: 1,
     class: 'rectitle',
     id: null
   };
@@ -95,10 +96,8 @@ RecTitle.prototype._getTransformedDimensions = function(width, height) {
       y: 0
     }
   };
-  //return dimensions;
-  var angle;
-  if (this._transformMatrix.m12 !== 0) {
-    angle = Math.atan(this._transformMatrix.m12);
+  if (this.hasTransformMatrix() && this._transformMatrix.m12 !== 0) {
+    var angle = Math.atan(this._transformMatrix.m12);
     dimensions.height = Math.abs(Math.tan(angle) * width) + height;
     dimensions.shift.y = dimensions.height - dimensions.original.height;
   }
