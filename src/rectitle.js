@@ -31,7 +31,7 @@ function RecTitle(options) {
 }
 
 RecTitle.prototype._init = function(options) {
-  this.options = this._merge(options, this.defaults);
+  this.options = this._merge(this._parse(options), this.defaults);
   this._transformMatrix = {
     m11: 1,
     m12: this.options.horizontalSkew,
@@ -192,4 +192,20 @@ RecTitle.prototype._merge = function(source, target) {
     }
   }
   return target;
+};
+
+RecTitle.prototype._parse = function(options) {
+  if (typeof options.fontSize !== 'number') {
+    if (this._isPixelValue(options.fontSize)) {
+      options.fontSize = Number(options.fontSize.substring(0, options.fontSize.indexOf('p')));
+    }
+    else {
+      throw new TypeError('Incorrect font size! Please provide numeric value.');
+    }
+  }
+  return options;
+};
+
+RecTitle.prototype._isPixelValue = function(value) {
+  return typeof value !== 'number' && (value.indexOf('px') !== -1 || value.indexOf('pt') !== -1);
 };
