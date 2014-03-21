@@ -1,5 +1,6 @@
 {
   "name": "rectitle",
+  "version": "0.2.0",
   "description": "Dynamic HTML 5 Canvas title component with masking",
   "homepage": "https://github.com/interactive-pioneers/rectitle",
   "author": {
@@ -13,7 +14,6 @@
     }
   ],
   "bugs": "https://github.com/interactive-pioneers/rectitle/issues",
-  "version": "0.1.0",
   "dependencies": {},
   "devDependencies": {
     "grunt": "~0.4.1",
