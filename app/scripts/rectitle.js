@@ -46,7 +46,7 @@ RecTitle.prototype._init = function(options) {
 RecTitle.prototype._initView = function() {
   this.view = document.createElement('canvas');
   this.view.setAttribute('class', this.options.class);
-  this.view.setAttribute('style', 'backrgound-color:transparent;');
+  this.view.setAttribute('style', 'background-color:transparent;');
   if (this.options.id) {
     this.view.setAttribute('id', this.options.id);
   }
