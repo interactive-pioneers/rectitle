@@ -90,6 +90,14 @@
         };
         return expect(test).to.throw(TypeError);
       });
+      it('expected to not throw Error on preset target', function() {
+        target.appendChild(text);
+        rectitle.setTarget(target);
+        var test = function() {
+          rectitle.render();
+        };
+        return expect(test).to.not.throw(Error);
+      });
       it('expected to calculate non-zero text width', function() {
         return expect(rectitle.getTextWidth('Hello world')).to.be.above(1);
       });

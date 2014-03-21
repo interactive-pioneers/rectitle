@@ -57,7 +57,12 @@ RecTitle.prototype.hasTransformMatrix = function() {
 };
 
 RecTitle.prototype.render = function(target) {
-  this.setTarget(target);
+  if (target) {
+    this.setTarget(target);
+  }
+  else if (!this.getTarget()) {
+    throw new Error('Render expects target!');
+  }
   this._dimensions = this._calculateDimensions();
   this.view.setAttribute('width', this._dimensions.width);
   this.view.setAttribute('height', this._dimensions.height);
