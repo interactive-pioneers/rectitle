@@ -68,7 +68,8 @@
 
       var headline = document.createElement('h2');
       var major = document.createElement('span');
-      var text = document.createTextNode('Hello World!');
+      var textString = 'Hello World!';
+      var text = document.createTextNode(textString);
       major.setAttribute('class', 'cutout');
       major.setAttribute('data-fontsize', 35);
       headline.appendChild(major);
@@ -121,6 +122,7 @@
         rectitle.setTarget(target);
         return expect(rectitle.getText()).to.be.not.empty;
       });
+
       it('expected to render canvas object', function() {
         target.appendChild(text);
         var test = function() {
@@ -139,7 +141,25 @@
         var renderedView = rectitle.render(target);
         return expect(renderedView).to.equal(rectitle.view);
       });
-    });
 
+      describe('set text considering text transform', function() {
+        beforeEach(function() {
+          target.appendChild(text);
+          rectitle.setTarget(target);
+        });
+        it('expected to get uppercase text', function() {
+          major.setAttribute('style', 'text-transform:uppercase;');
+          return expect(rectitle.getText()).to.equal(textString.toUpperCase());
+        });
+        it('expected to get lowercase text', function() {
+          major.setAttribute('style', 'text-transform:lowercase;');
+          return expect(rectitle.getText()).to.equal(textString.toLowerCase());
+        });
+        it('expected to get capitalized text', function() {
+          major.setAttribute('style', 'text-transform:capitalize;');
+          return expect(rectitle.getText()).to.equal(textString.charAt(0).toUpperCase() + textString.slice(1));
+        });
+      });
+    });
   });
 })();

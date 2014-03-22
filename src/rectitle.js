@@ -24,6 +24,7 @@ function RecTitle(options) {
   };
   this.view = null;
   this._target = null;
+  this._style = null;
   this._text = null;
   this._transformMatrix = null;
   this._dimensions = {width: null, height: null};
@@ -129,7 +130,6 @@ RecTitle.prototype._draw = function() {
   return context;
 };
 
-
 RecTitle.prototype.getTextWidth = function(text) {
   var canvas = document.createElement('canvas');
   var width = 3072;
@@ -146,6 +146,19 @@ RecTitle.prototype.getTextWidth = function(text) {
 
 RecTitle.prototype.setText = function(text) {
   if (typeof text === 'string' && text.length > 0) {
+    var textTransform = this._style.getPropertyValue('text-transform');
+    console.log('text transform', textTransform);
+    switch (textTransform) {
+      case 'uppercase':
+        text = text.toUpperCase();
+        break;
+      case 'lowercase':
+        text = text.toLowerCase();
+        break;
+      case 'capitalize':
+        text = text.charAt(0).toUpperCase() + text.slice(1);
+        break;
+    }
     this._text = text;
   }
   else {
@@ -164,10 +177,10 @@ RecTitle.prototype.getText = function() {
   }
 };
 
-
 RecTitle.prototype.setTarget = function(target) {
   if (target && target.tagName) {
     this._target = target;
+    this._style = window.getComputedStyle(this._target);
   }
   else {
     throw new TypeError('HTMLElement expected for target!');
