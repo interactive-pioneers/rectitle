@@ -7,11 +7,11 @@ Dynamic HTML 5 Canvas title component with horisontal skewing and masking.
 ## Installation
 `bower install rectitle`
 
-## Minimum browser requirements
-- Internet Explorer 9
-- Safari 7
-- Google Chrome 33
-- Mozilla Firefox 9
+## Browser requirements
+
+| IE | Safari | Google Chrome | Firefox |
+|----|--------|---------------|---------|
+| 7+ | 7+     | 33+           | 9+      |
 
 ## Example
 The following code achieves the image included above:
