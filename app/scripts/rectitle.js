@@ -1,6 +1,7 @@
 'use strict';
 /**
  * Constructor.
+ * TODO JSDoc.
  * @constructs
  */
 function RecTitle(options) {
@@ -195,7 +196,7 @@ RecTitle.prototype._merge = function(source, target) {
 };
 
 RecTitle.prototype._parse = function(options) {
-  if (typeof options.fontSize !== 'number') {
+  if (options.fontSize && typeof options.fontSize !== 'number') {
     if (this._isPixelValue(options.fontSize)) {
       options.fontSize = Number(options.fontSize.substring(0, options.fontSize.indexOf('p')));
     }

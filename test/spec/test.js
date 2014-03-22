@@ -41,11 +41,26 @@
       });
       it('expected to set transform matrix', function() {
         config.horizontalSkew = -0.05;
-        rectitle = new RecTitle(config);
         return expect(rectitle.hasTransformMatrix()).to.be.ok;
       });
       it('expected to set opacity', function() {
         return expect(rectitle.options.opacity).to.equal(config.opacity);
+      });
+      it('expected to parse pixel font size', function() {
+        config.fontSize = '34px';
+        rectitle = new RecTitle(config);
+        return expect(rectitle.options.fontSize).to.equal(34);
+      });
+      it('expected to parse point font size', function() {
+        config.fontSize = '34pt';
+        rectitle = new RecTitle(config);
+        return expect(rectitle.options.fontSize).to.equal(34);
+      });
+      it('expected to throw type error on non-pixel, non-numeric font size', function() {
+        function test() {
+          rectitle = new RecTitle({fontSize: '34em'});
+        }
+        return expect(test).to.throw(TypeError);
       });
     });
 
