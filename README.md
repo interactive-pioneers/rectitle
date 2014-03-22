@@ -2,6 +2,8 @@
 
 Dynamic HTML 5 Canvas title component with horisontal skewing and masking.
 
+![Example](app/images/example-headline.png)
+
 ## Installation
 `bower install rectitle`
 
@@ -12,7 +14,29 @@ Dynamic HTML 5 Canvas title component with horisontal skewing and masking.
 - Mozilla Firefox 9
 
 ## Example
-_Coming soon_.
+The following code achieves the image included above:
+```html
+<h1>Headline</h1>
+<script src="scripts/rectitle.js"></script>
+<script>
+  var heading = document.querySelectorAll('h1')[0];
+  var config = {
+    backgroundColor: '#000',
+    mask: true,
+    horizontalSkew: -0.05,
+    backgroundPadding: {
+      left: 10,
+      top: 10,
+      bottom: 10,
+      right: 10
+    },
+    opacity: 0.8
+  };
+  var rectitle = new RecTitle(config);
+  rectitle.render(heading);
+</script>
+
+```
 
 ## Releases
 See [release tags](https://github.com/interactive-pioneers/rectitle/releases).
