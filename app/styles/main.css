@@ -4,6 +4,9 @@ body {
   color: #333;
   text-align: center;
 }
+h1 {
+  text-transform: capitalize;
+}
 .rectitle {
   background: transparent;
   margin: 0px auto;
