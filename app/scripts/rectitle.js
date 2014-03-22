@@ -147,7 +147,6 @@ RecTitle.prototype.getTextWidth = function(text) {
 RecTitle.prototype.setText = function(text) {
   if (typeof text === 'string' && text.length > 0) {
     var textTransform = this._style.getPropertyValue('text-transform');
-    console.log('text transform', textTransform);
     switch (textTransform) {
       case 'uppercase':
         text = text.toUpperCase();
