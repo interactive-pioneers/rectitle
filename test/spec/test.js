@@ -62,6 +62,29 @@
         }
         return expect(test).to.throw(TypeError);
       });
+      it('expected to not set mask on undefined', function() {
+        return expect(rectitle.options.mask).to.be.false;
+      });
+      it('expected to not set mask on 0', function() {
+        config.mask = '0';
+        rectitle = new RecTitle(config);
+        return expect(rectitle.options.mask).to.be.false;
+      });
+      it('expected to set mask on "true"', function() {
+        config.mask = 'true';
+        rectitle = new RecTitle(config);
+        return expect(rectitle.options.mask).to.be.true;
+      });
+      it('expected to set mask on "1"', function() {
+        config.mask = '1';
+        rectitle = new RecTitle(config);
+        return expect(rectitle.options.mask).to.be.true;
+      });
+      it('expected to not set mask on "something"', function() {
+        config.mask = 'something';
+        rectitle = new RecTitle(config);
+        return expect(rectitle.options.mask).to.be.false;
+      });
     });
 
     describe('render', function() {

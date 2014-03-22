@@ -199,8 +199,8 @@ RecTitle.prototype.getTarget = function() {
  * @return Object New merged object.
  */
 RecTitle.prototype._merge = function(source, target) {
-  for (var option in source) {
-    if (target[option] !== undefined) {
+  for (var option in target) {
+    if (source[option] !== undefined) {
       target[option] = source[option];
     }
   }
@@ -216,6 +216,7 @@ RecTitle.prototype._parse = function(options) {
       throw new TypeError('Incorrect font size! Please provide numeric value.');
     }
   }
+  options.mask = options.mask && (options.mask === true || options.mask === 'true' || options.mask === '1');
   return options;
 };
 
