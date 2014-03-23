@@ -58,7 +58,7 @@ RecTitle.prototype.hasTransformMatrix = function() {
   return this._transformMatrix && (this._transformMatrix.m12 !== 0 || this._transformMatrix.m21 !== 0);
 };
 
-RecTitle.prototype.render = function(target) {
+RecTitle.prototype.render = function(target, skipAppend) {
   if (target) {
     this.setTarget(target);
   }
@@ -69,7 +69,7 @@ RecTitle.prototype.render = function(target) {
   this.view.setAttribute('width', this._dimensions.width);
   this.view.setAttribute('height', this._dimensions.height);
   if (this._draw()) {
-    return this.emptyTarget().appendChild(this.view);
+    return skipAppend ? this.view : this.emptyTarget().appendChild(this.view);
   }
   return false;
 };
