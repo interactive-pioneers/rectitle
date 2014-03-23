@@ -217,6 +217,22 @@ RecTitle.prototype._merge = function(source, target) {
 
 RecTitle.prototype._parse = function(options) {
   if (options.fontSize && typeof options.fontSize !== 'number') {
+    if (Number(options.fontSize).toString() === options.fontSize) {
+      options.fontSize = Number(options.fontSize);
+    }
+    else if (this._isPixelValue(options.fontSize)) {
+      options.fontSize = Number(options.fontSize.substring(0, options.fontSize.indexOf('p')));
+    }
+    else {
+      throw new TypeError('Incorrect font size! Please provide numeric value.');
+    }
+  }
+  options.mask = options.mask && (options.mask === true || options.mask === 'true' || options.mask === '1');
+  return options;
+};
+
+RecTitle.prototype._parse = function(options) {
+  if (options.fontSize && typeof options.fontSize !== 'number') {
     if (this._isPixelValue(options.fontSize)) {
       options.fontSize = Number(options.fontSize.substring(0, options.fontSize.indexOf('p')));
     }
