@@ -144,6 +144,14 @@ RecTitle.prototype.getTextWidth = function(text) {
   return context.measureText(text).width;
 };
 
+RecTitle.prototype.getWidth = function() {
+  return this._dimensions.width;
+};
+
+RecTitle.prototype.getHeight = function() {
+  return this._dimensions.height;
+};
+
 RecTitle.prototype.setText = function(text) {
   if (typeof text === 'string' && text.length > 0) {
     var textTransform = this._style.getPropertyValue('text-transform');
