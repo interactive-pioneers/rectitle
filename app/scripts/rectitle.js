@@ -17,6 +17,7 @@ function RecTitle(options) {
       right: 10,
       bottom: 0
     },
+    backgroundOpacity: 1,
     horizontalSkew: 0,
     opacity: 1,
     class: 'rectitle',
@@ -118,7 +119,7 @@ RecTitle.prototype._draw = function() {
   if (this.hasTransformMatrix()) {
     context.transform(this._transformMatrix.m11, this._transformMatrix.m12, this._transformMatrix.m21, this._transformMatrix.m22, this._transformMatrix.dx, this._transformMatrix.dy);
   }
-  context.fillStyle = this.options.backgroundColor;
+  context.fillStyle = this.getRGBA(this.options.backgroundColor, this.options.backgroundOpacity);
   context.fillRect(this._dimensions.shift.x, this._dimensions.shift.y, this._dimensions.width - this._dimensions.shift.x, this._dimensions.height - this._dimensions.shift.y);
   if (this.options.mask === true) {
     context.globalCompositeOperation = 'destination-out';
@@ -128,6 +129,33 @@ RecTitle.prototype._draw = function() {
   }
   context.fillText(this.getText(), this.options.backgroundPadding.left + this._dimensions.shift.x, this._dimensions.original.height - this.options.backgroundPadding.bottom);
   return context;
+};
+
+RecTitle.prototype.getRGBA = function(color, alpha) {
+  if (!alpha) {
+    alpha = 1;
+  }
+  if (color.charAt(0) === '#') {
+    if (color.length === 4) {
+      var shorthandPattern = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+      color = color.replace(shorthandPattern, function(m, r, g, b) {
+        return r + r + g + g + b + b;
+      });
+    }
+    var matches = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color);
+    if (matches) {
+      var rgb =  {
+        r: parseInt(matches[1], 16),
+        g: parseInt(matches[2], 16),
+        b: parseInt(matches[3], 16)
+      };
+      color = 'rgba(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ',' + alpha + ')';
+    }
+  }
+  else if (color.indexOf('rgb(') === 0) {
+    color = 'rgba' + color.substring(3, color.indexOf(')')) + ',' + alpha + ')';
+  }
+  return color;
 };
 
 RecTitle.prototype.getTextWidth = function(text) {
@@ -227,17 +255,9 @@ RecTitle.prototype._parse = function(options) {
       throw new TypeError('Incorrect font size! Please provide numeric value.');
     }
   }
-  options.mask = options.mask && (options.mask === true || options.mask === 'true' || options.mask === '1');
-  return options;
-};
-
-RecTitle.prototype._parse = function(options) {
-  if (options.fontSize && typeof options.fontSize !== 'number') {
-    if (this._isPixelValue(options.fontSize)) {
-      options.fontSize = Number(options.fontSize.substring(0, options.fontSize.indexOf('p')));
-    }
-    else {
-      throw new TypeError('Incorrect font size! Please provide numeric value.');
+  if (options.backgroundPadding) {
+    for (var i in options.backgroundPadding) {
+      options.backgroundPadding[i] = Number(options.backgroundPadding[i]);
     }
   }
   options.mask = options.mask && (options.mask === true || options.mask === 'true' || options.mask === '1');

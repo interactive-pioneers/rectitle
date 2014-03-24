@@ -5,7 +5,7 @@
 
     var config = {
       fontFamily: 'Arial',
-      fontSize: 12,
+      fontSize: '12',
       id: 'rectitle-007',
       backgroundPadding: {
         left: 15,
@@ -33,8 +33,8 @@
       it('expected to set element ID to ' + config.id, function() {
         return expect(rectitle.view.getAttribute('id')).to.equal(config.id);
       });
-      it('expected to have background padding set to ' + config.backgroundPadding.toString(), function() {
-        return expect(rectitle.options.backgroundPadding).to.equal(config.backgroundPadding);
+      it('expected to set background padding', function() {
+        return expect(rectitle.options.backgroundPadding).to.deep.equal(config.backgroundPadding);
       });
       it('expected to not set transform matrix', function() {
         return expect(rectitle.hasTransformMatrix()).to.be.not.ok;
@@ -192,6 +192,25 @@
           major.setAttribute('style', 'text-transform:capitalize;');
           return expect(rectitle.getText()).to.equal(textString.charAt(0).toUpperCase() + textString.slice(1));
         });
+      });
+
+      describe('get RGBA', function() {
+        it('expected to get RGBA of #ffffff', function() {
+          return expect(rectitle.getRGBA('#ffffff')).to.equal('rgba(255,255,255,1)');
+        });
+        it('expected to get RGBA of #fff', function() {
+          return expect(rectitle.getRGBA('#fff')).to.equal('rgba(255,255,255,1)');
+        });
+        it('expected to get RGBA of rgb(0,0,0)', function() {
+          return expect(rectitle.getRGBA('rgb(0,0,0)')).to.equal('rgba(0,0,0,1)');
+        });
+        it('expected to get RGBA of #000 and 0.5 alpha', function() {
+          return expect(rectitle.getRGBA('#000', 0.5)).to.equal('rgba(0,0,0,0.5)');
+        });
+        it('expected to get RGBA of rgba(125,125,125,0.4)', function() {
+          return expect(rectitle.getRGBA('rgba(125,125,125,0.4)')).to.equal('rgba(125,125,125,0.4)');
+        });
+
       });
     });
   });
