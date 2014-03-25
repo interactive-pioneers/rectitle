@@ -9,9 +9,9 @@ Dynamic HTML 5 Canvas title component with horisontal skewing and masking.
 
 ## Browser requirements
 
-| IE | Safari | Google Chrome | Firefox |
-|----|--------|---------------|---------|
-| 7+ | 7+     | 33+           | 9+      |
+| IE | Safari | Google Chrome | Firefox | Opera |
+|----|--------|---------------|---------|-------|
+| 9+ | 7+   | 31+           | 26+      | 19+    |
 
 ## Example
 The following code achieves the image included above:
