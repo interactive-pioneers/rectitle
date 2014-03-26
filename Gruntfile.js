@@ -156,6 +156,7 @@ module.exports = function (grunt) {
   grunt.registerTask('qa', ['concurrent:qa']);
 
   grunt.registerTask('build', [
+    'concurrent:qa',
     'clean:dist',
     'concurrent:build'
   ]);
