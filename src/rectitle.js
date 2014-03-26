@@ -195,6 +195,10 @@ RecTitle.prototype.getHeight = function() {
   return this._dimensions.height;
 };
 
+RecTitle.prototype.getShift = function() {
+  return this._dimensions.shift;
+};
+
 RecTitle.prototype.setText = function(text) {
   if (typeof text === 'string' && text.length > 0) {
     var textTransform = this._style.getPropertyValue('text-transform');
