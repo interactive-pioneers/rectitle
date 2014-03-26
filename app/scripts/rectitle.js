@@ -41,7 +41,7 @@ RecTitle.prototype._setDefaults = function() {
   this._text = null;
   this._transformMatrix = null;
   this._dimensions = {width: null, height: null};
-}
+};
 
 RecTitle.prototype._init = function(options) {
   this._setDefaults();
