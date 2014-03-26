@@ -13,7 +13,8 @@
         right: 15,
         bottom: 15
       },
-      opacity: 0.8
+      opacity: 0.8,
+      class: 'rectitle-pioneer'
     };
     var rectitle;
 
@@ -29,6 +30,9 @@
       });
       it('expected to set font family to ' + config.fontFamily, function() {
         return expect(rectitle.options.fontFamily).to.equal(config.fontFamily);
+      });
+      it('expected to set element class to ' + config.class, function() {
+        return expect(rectitle.view.getAttribute('class')).to.equal(config.class);
       });
       it('expected to set element ID to ' + config.id, function() {
         return expect(rectitle.view.getAttribute('id')).to.equal(config.id);

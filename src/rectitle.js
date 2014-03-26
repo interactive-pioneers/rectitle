@@ -5,6 +5,18 @@
  * @constructs
  */
 function RecTitle(options) {
+  if (this._hasCapabilities()) {
+    return this._init(options);
+  }
+  return null;
+}
+
+RecTitle.prototype._hasCapabilities = function() {
+  var canvas = document.createElement('canvas');
+  return !!(canvas.getContext && canvas.getContext('2d'));
+};
+
+RecTitle.prototype._setDefaults = function() {
   this.defaults = {
     fontFamily: 'Helvetica',
     fontSize: 48,
@@ -20,7 +32,7 @@ function RecTitle(options) {
     backgroundOpacity: 1,
     horizontalSkew: 0,
     opacity: 1,
-    class: 'rectitle',
+    className: 'rectitle',
     id: null
   };
   this.view = null;
@@ -29,11 +41,10 @@ function RecTitle(options) {
   this._text = null;
   this._transformMatrix = null;
   this._dimensions = {width: null, height: null};
-  this._init(options);
-  return this;
 }
 
 RecTitle.prototype._init = function(options) {
+  this._setDefaults();
   this.options = this._merge(this._parse(options), this.defaults);
   this._transformMatrix = {
     m11: 1,
@@ -44,11 +55,12 @@ RecTitle.prototype._init = function(options) {
     dy: 0
   };
   this._initView();
+  return this;
 };
 
 RecTitle.prototype._initView = function() {
   this.view = document.createElement('canvas');
-  this.view.setAttribute('class', this.options.class);
+  this.view.setAttribute('class', this.options.className);
   this.view.setAttribute('style', 'background-color:transparent;');
   if (this.options.id) {
     this.view.setAttribute('id', this.options.id);
@@ -60,6 +72,9 @@ RecTitle.prototype.hasTransformMatrix = function() {
 };
 
 RecTitle.prototype.render = function(target, skipAppend) {
+  if (!this._hasCapabilities()) {
+    return false;
+  }
   if (target) {
     this.setTarget(target);
   }
@@ -259,6 +274,9 @@ RecTitle.prototype._parse = function(options) {
     for (var i in options.backgroundPadding) {
       options.backgroundPadding[i] = Number(options.backgroundPadding[i]);
     }
+  }
+  if (options['class']) {
+    options.className = options['class'];
   }
   options.mask = options.mask && (options.mask === true || options.mask === 'true' || options.mask === '1');
   return options;
