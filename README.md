@@ -47,3 +47,6 @@ Contributions are regulated as regular, fork, create a contribution-specific bra
 1. `npm i` to install Node.js dependencies
 2. `bower install` to install Bower dependencies
 3. `grunt server:bdd` to run server which runs tests automatically whenever `src/rectitle.js` is changed.
+
+## License
+[GPL](https://raw.githubusercontent.com/interactive-pioneers/rectitle/master/LICENSE)
