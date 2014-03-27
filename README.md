@@ -42,12 +42,12 @@ The following code achieves the image included above:
 
 | Option | Description |
 |--------|-------------|
-| backgrounColor | String. Colour of the rectangle background (hex) |
-| backgroundOpacity | Number. Opacity of the rectangle (0-1) |
-| backgroundPadding | Object. Padding of the content in rectangle on all edges (top, right, bottom, left; see [Example](#example)) |
-| opacity | Number. Overall opacity of all grapihcs, incl. text (0-1) |
-| mask | Boolean. Whether or not text masks the rectangle |
-| horizontalSkew | Number. Skew amount for transformation matrix |
+| `backgrounColor` | String. Colour of the rectangle background (hex) |
+| `backgroundOpacity` | Number. Opacity of the rectangle (0-1) |
+| `backgroundPadding` | Object. Padding of the content in rectangle on all edges (top, right, bottom, left; see [Example](#example)) |
+| `opacity` | Number. Overall opacity of all grapihcs, incl. text (0-1) |
+| `mask` | Boolean. Whether or not text masks the rectangle |
+| `horizontalSkew` | Number. Skew amount for transformation matrix |
 
 ## Releases
 See [release tags](https://github.com/interactive-pioneers/rectitle/releases).
