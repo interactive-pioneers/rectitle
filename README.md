@@ -48,6 +48,11 @@ The following code achieves the image included above:
 | `opacity` | Number. Overall opacity of all grapihcs, incl. text (0-1) |
 | `mask` | Boolean. Whether or not text masks the rectangle |
 | `horizontalSkew` | Number. Skew amount for transformation matrix |
+| `fontFamily` | String. Font family, same as CSS `font-family` |
+| `fontSize | Number. Font size |
+| `fontColor` | String. Hex colour code |
+| `className` | Element class name attribute appended to canvas element |
+| `id` | Element ID attribute appended to canvas element |
 
 ## Releases
 See [release tags](https://github.com/interactive-pioneers/rectitle/releases).
