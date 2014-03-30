@@ -13,20 +13,21 @@
 </head>
 <body>
   <h1>headline</h1>
+  <!--<script src="bower_components/Font.js/Font.js"></script>-->
   <script src="scripts/rectitle.js"></script>
   <script>
     var heading = document.querySelectorAll('h1')[0];
     var config = {
       backgroundColor: '#000',
       mask: true,
-      horizontalSkew: -0.05,
+      horizontalSkew: 0,
       backgroundPadding: {
-        left: '10',
-        top: '10',
-        bottom: '20',
-        right: '30'
+        left: 0,
+        top: 0,
+        bottom: 0,
+        right: 0
       },
-      backgroundOpacity: 0.5
+      backgroundOpacity: 0.8
     };
     var rectitle = new RecTitle(config);
     rectitle.render(heading);

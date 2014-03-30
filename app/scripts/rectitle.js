@@ -99,9 +99,63 @@ RecTitle.prototype.emptyTarget = function() {
 };
 
 RecTitle.prototype._calculateDimensions = function() {
-  var width = this.getTextWidth(this.getText()) + this.options.backgroundPadding.left + this.options.backgroundPadding.right;
-  var height = this.options.fontSize + this.options.backgroundPadding.top + this.options.backgroundPadding.bottom;
+  var textWidth = this.getTextWidth(this.getText());
+  var width = textWidth + this.options.backgroundPadding.left + this.options.backgroundPadding.right;
+  var realTextHeight = this._getRealTextHeight(this.getText(), this.options.fontSize, this.options.fontFamily, textWidth, this.options.fontSize);
+  var height = realTextHeight + this.options.backgroundPadding.top + this.options.backgroundPadding.bottom;
   return this._getTransformedDimensions(width, height);
+};
+
+/**
+ * Get real visible height of text.
+ * Text height by font size is unreliable and is not visibly correct.
+ * Calculate by drawn pixels.
+ * @param text {String} Text which height needs to be calculated.
+ * @param fontSize {Number} Size of the font used for text.
+ * @param fontFamily {String} Font family used for text.
+ * @param width {Number} Estimated width (for canvas).
+ * @param height {Number} Estimated height (for canvas).
+ * @return {Number} Real pixel height of given text.
+ */
+RecTitle.prototype._getRealTextHeight = function(text, fontSize, fontFamily, width, height) {
+  var canvas = document.createElement('canvas');
+  canvas.setAttribute('width', width);
+  canvas.setAttribute('height', height);
+  var context = canvas.getContext('2d');
+  context.translate(0, Math.round(height * 0.8));
+  context.font = fontSize + 'px ' + fontFamily;
+  context.fillStyle = '#000';
+  context.fillText(text, 0, 0);
+  var data = context.getImageData(0, 0, width, height).data;
+  var first = false;
+  var last = false;
+  var pxw = 0;
+  var pxh = height;
+  // last line with black pixel
+  while (!last && pxh) {
+    pxh--;
+    for (pxw = 0; pxw < width; pxw++) {
+      if (data[pxh  * width * 4 + pxw * 4 + 3]) {
+        last = pxh;
+        break;
+      }
+    }
+  }
+  pxh = height;
+  // 1st line with black pixel
+  while (pxh) {
+    pxh--;
+    for (pxw = 0; pxw < width; pxw++) {
+      if (data[pxh * width * 4 + pxw * 4 + 3]) {
+        first = pxh;
+        break;
+      }
+    }
+    if (first !== pxh) {
+      return last - first;
+    }
+  }
+  return 0;
 };
 
 RecTitle.prototype._getTransformedDimensions = function(width, height) {
@@ -195,6 +249,10 @@ RecTitle.prototype.getHeight = function() {
   return this._dimensions.height;
 };
 
+RecTitle.prototype.getShift = function() {
+  return this._dimensions.shift;
+};
+
 RecTitle.prototype.setText = function(text) {
   if (typeof text === 'string' && text.length > 0) {
     var textTransform = this._style.getPropertyValue('text-transform');
@@ -285,3 +343,8 @@ RecTitle.prototype._parse = function(options) {
 RecTitle.prototype._isPixelValue = function(value) {
   return typeof value !== 'number' && (value.indexOf('px') !== -1 || value.indexOf('pt') !== -1);
 };
+
+
+
+
+
