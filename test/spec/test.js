@@ -169,13 +169,13 @@
         return expect(renderedView).to.equal(rectitle.view);
       });
       it('expected to not render canvas object replacing target', function() {
-        var canvasElements = document.querySelectorAll('canvas');
+        var canvasElements = document.querySelectorAll('canvas.rectitle');
         for (var i = 0, l = canvasElements.length; i < l; i++) {
           canvasElements[i].parentNode.removeChild(canvasElements[i]);
         }
         target.appendChild(text);
         rectitle.render(target, true);
-        var matches = document.querySelectorAll('canvas');
+        var matches = document.querySelectorAll('canvas.rectitle');
         return expect(matches.length).to.equal(0);
       });
 
