@@ -181,6 +181,9 @@ RecTitle.prototype._getTransformedDimensions = function(width, height) {
 
 RecTitle.prototype._draw = function() {
   var context = this.view.getContext('2d');
+  if (this.options.horizontalSkew > 0) {
+    context.translate(0, -this._dimensions.shift.y);
+  }
   if (this.options.opacity < 1) {
     context.globalAlpha = this.options.opacity;
   }
