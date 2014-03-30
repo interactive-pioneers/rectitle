@@ -196,7 +196,7 @@ RecTitle.prototype._draw = function() {
   else {
     context.fillStyle = this.options.fontColor;
   }
-  context.fillText(this.getText(), this.options.backgroundPadding.left + this._dimensions.shift.x, this._dimensions.original.height - this.options.backgroundPadding.bottom);
+  context.fillText(this.getText(), this.options.backgroundPadding.left + this._dimensions.shift.x, this._dimensions.original.height - this.options.backgroundPadding.bottom + this._dimensions.shift.y);
   return context;
 };
 
