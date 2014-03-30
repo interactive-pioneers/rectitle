@@ -61,8 +61,7 @@ See [release tags](https://github.com/interactive-pioneers/rectitle/releases).
 Contributions are regulated as regular, fork, create a contribution-specific branch and send a Pull Request.
 ### Development setup
 1. `npm i` to install Node.js dependencies
-2. `bower install` to install Bower dependencies
-3. `grunt server:bdd` to run server which runs tests automatically whenever `src/rectitle.js` is changed.
+2. `grunt server` to run server which runs tests automatically whenever `src/rectitle.js` is changed.
 
 ## License
 [GPL](https://raw.githubusercontent.com/interactive-pioneers/rectitle/master/LICENSE)
