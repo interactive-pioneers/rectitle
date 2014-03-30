@@ -49,7 +49,7 @@ The following code achieves the image included above:
 | `mask` | Boolean. Whether or not text masks the rectangle |
 | `horizontalSkew` | Number. Skew amount for transformation matrix |
 | `fontFamily` | String. Font family, same as CSS `font-family` |
-| `fontSize | Number. Font size |
+| `fontSize` | Number. Font size |
 | `fontColor` | String. Hex colour code |
 | `className` | Element class name attribute appended to canvas element |
 | `id` | Element ID attribute appended to canvas element |
