@@ -33,7 +33,8 @@ RecTitle.prototype._setDefaults = function() {
     horizontalSkew: 0,
     opacity: 1,
     className: 'rectitle',
-    id: null
+    id: null,
+    webFontUrl: null
   };
   this.view = null;
   this._target = null;
@@ -41,6 +42,7 @@ RecTitle.prototype._setDefaults = function() {
   this._text = null;
   this._transformMatrix = null;
   this._dimensions = {width: null, height: null};
+  this._skipAppend = false;
 };
 
 RecTitle.prototype._init = function(options) {
@@ -81,13 +83,22 @@ RecTitle.prototype.render = function(target, skipAppend) {
   else if (!this.getTarget()) {
     throw new Error('Render expects target!');
   }
-  this._dimensions = this._calculateDimensions();
+  this._skipAppend = skipAppend;
+  this._preRender();
+};
+
+/**
+ * Finalise rendering with actual measurements from pre-render.
+ */
+RecTitle.prototype._render = function(textBounds) {
+  var width = textBounds.width + this.options.backgroundPadding.left + this.options.backgroundPadding.right;
+  var height = textBounds.height + this.options.backgroundPadding.top + this.options.backgroundPadding.bottom;
+  this._dimensions = this._getTransformedDimensions(width, height);
   this.view.setAttribute('width', this._dimensions.width);
   this.view.setAttribute('height', this._dimensions.height);
-  if (this._draw()) {
-    return skipAppend ? this.view : this.emptyTarget().appendChild(this.view);
+  if (this._draw() && !this._skipAppend) {
+    this.emptyTarget().appendChild(this.view);
   }
-  return false;
 };
 
 RecTitle.prototype.emptyTarget = function() {
@@ -97,65 +108,76 @@ RecTitle.prototype.emptyTarget = function() {
   }
   return target;
 };
-
-RecTitle.prototype._calculateDimensions = function() {
-  var textWidth = this.getTextWidth(this.getText());
-  var width = textWidth + this.options.backgroundPadding.left + this.options.backgroundPadding.right;
-  var realTextHeight = this._getRealTextHeight(this.getText(), this.options.fontSize, this.options.fontFamily, textWidth, this.options.fontSize);
-  var height = realTextHeight + this.options.backgroundPadding.top + this.options.backgroundPadding.bottom;
+/*
+RecTitle.prototype._calculateDimensions = function(textBounds) {
+  var width = textBounds.x + this.options.backgroundPadding.left + this.options.backgroundPadding.right;
+  var height =  + this.options.backgroundPadding.top + this.options.backgroundPadding.bottom;
   return this._getTransformedDimensions(width, height);
+};*/
+
+RecTitle.prototype._preRender = function() {
+  this._setTextBounds(this._render.bind(this));
 };
 
 /**
- * Get real visible height of text.
+ * Set real visible height of text.
  * Text height by font size is unreliable and is not visibly correct.
  * Calculate by drawn pixels.
- * @param text {String} Text which height needs to be calculated.
- * @param fontSize {Number} Size of the font used for text.
- * @param fontFamily {String} Font family used for text.
- * @param width {Number} Estimated width (for canvas).
- * @param height {Number} Estimated height (for canvas).
- * @return {Number} Real pixel height of given text.
  */
-RecTitle.prototype._getRealTextHeight = function(text, fontSize, fontFamily, width, height) {
+RecTitle.prototype._setTextBounds = function(callback) {
   var canvas = document.createElement('canvas');
+  var width = this.getTextWidth(this.getText());
+  var height = this.options.fontSize;
   canvas.setAttribute('width', width);
   canvas.setAttribute('height', height);
   var context = canvas.getContext('2d');
   context.translate(0, Math.round(height * 0.8));
-  context.font = fontSize + 'px ' + fontFamily;
+  context.font = this.options.fontSize + 'px "' + this.options.fontFamily + '"';
   context.fillStyle = '#000';
-  context.fillText(text, 0, 0);
-  var data = context.getImageData(0, 0, width, height).data;
-  var first = false;
-  var last = false;
-  var pxw = 0;
-  var pxh = height;
-  // last line with black pixel
-  while (!last && pxh) {
-    pxh--;
-    for (pxw = 0; pxw < width; pxw++) {
-      if (data[pxh  * width * 4 + pxw * 4 + 3]) {
-        last = pxh;
-        break;
+  console.log('>> ', this.getText(), width, height, this.options.fontFamily);
+  context.fillText(this.getText(), 0, 0);
+  document.body.appendChild(canvas);
+  setTimeout(function() {
+    var bounds = {
+      x: 0,
+      y: 0,
+      width: width,
+      height: 0
+    };
+    var data = context.getImageData(0, 0, width, height).data;
+    console.log('data: ' + data.length + ' B');
+    var first = 0;
+    var last = 0;
+    var pxw = 0;
+    var pxh = height;
+    // last line with black pixel
+    while (!last && pxh) {
+      pxh--;
+      for (pxw = 0; pxw < width; pxw++) {
+        if (data[pxh  * width * 4 + pxw * 4 + 3]) {
+          last = pxh;
+          break;
+        }
       }
     }
-  }
-  pxh = height;
-  // 1st line with black pixel
-  while (pxh) {
-    pxh--;
-    for (pxw = 0; pxw < width; pxw++) {
-      if (data[pxh * width * 4 + pxw * 4 + 3]) {
-        first = pxh;
-        break;
+    //pxh = height;
+    // 1st line with black pixel
+    while (pxh) {
+      pxh--;
+      for (pxw = 0; pxw < width; pxw++) {
+        if (data[pxh * width * 4 + pxw * 4 + 3]) {
+          first = pxh;
+          break;
+        }
+      }
+      if (first !== pxh) {
+        console.log('caught!', last, first);
+        bounds.height = last - first;
       }
     }
-    if (first !== pxh) {
-      return last - first;
-    }
-  }
-  return 0;
+    console.log('bounds', bounds.width, bounds.height);
+    callback(bounds);
+  }, 1000);
 };
 
 RecTitle.prototype._getTransformedDimensions = function(width, height) {
