@@ -15,9 +15,18 @@
       console.log('loading');
     },
     active: function() {
-      console.log('active');
+      console.log('All fonts rendered');
       var rectitle = new RecTitle(config);
       rectitle.render(heading);
+    },
+    fontloading: function(familyName, fvd) {
+      console.log(familyName, 'loading...');
+    },
+    fontactive: function(familyName, fvd) {
+      console.log(familyName, 'rendered');
+    },
+    fontinactive: function (familyName, fvd) {
+      console.log(familyName, 'failed to render!');
     },
     google: {
       families: ['Elsie']

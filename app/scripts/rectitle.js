@@ -160,7 +160,7 @@ RecTitle.prototype._setTextBounds = function(callback) {
         }
       }
     }
-    //pxh = height;
+    pxh = height;
     // 1st line with black pixel
     while (pxh) {
       pxh--;
@@ -177,7 +177,7 @@ RecTitle.prototype._setTextBounds = function(callback) {
     }
     console.log('bounds', bounds.width, bounds.height);
     callback(bounds);
-  }, 1000);
+  }, 3000);
 };
 
 RecTitle.prototype._getTransformedDimensions = function(width, height) {
