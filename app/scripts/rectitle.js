@@ -136,7 +136,13 @@ RecTitle.prototype._setTextBounds = function(callback) {
   context.fillStyle = '#000';
   console.log('>> ', this.getText(), width, height, this.options.fontFamily);
   context.fillText(this.getText(), 0, 0);
-  document.body.appendChild(canvas);
+  var debugSlot = document.createElement('div');
+  debugSlot.style.backgroundColor = 'rgba(127,127,127,0.5)';
+  debugSlot.style.backgroundRepeat = 'no-repeat';
+  debugSlot.style.position = 'absolute';
+  debugSlot.style.width = '400px';
+  debugSlot.style.height = '100px';
+  document.body.appendChild(debugSlot);
   setTimeout(function() {
     var bounds = {
       x: 0,
@@ -146,6 +152,7 @@ RecTitle.prototype._setTextBounds = function(callback) {
     };
     var data = context.getImageData(0, 0, width, height).data;
     console.log('data: ' + data.length + ' B');
+    debugSlot.style.backgroundImage = 'url(' + canvas.toDataURL('image/png') + ')';
     var first = 0;
     var last = 0;
     var pxw = 0;
@@ -177,7 +184,7 @@ RecTitle.prototype._setTextBounds = function(callback) {
     }
     console.log('bounds', bounds.width, bounds.height);
     callback(bounds);
-  }, 3000);
+  }, 1000);
 };
 
 RecTitle.prototype._getTransformedDimensions = function(width, height) {
