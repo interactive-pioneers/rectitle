@@ -89,6 +89,8 @@ RecTitle.prototype.render = function(target, skipAppend) {
 
 /**
  * Finalise rendering with actual measurements from pre-render.
+ * TODO: remove and keep single render method (as in the master version)
+ * TODO: implement PIXI algoritm for height measurements (tested to work) https://gist.github.com/videlais/9589285
  */
 RecTitle.prototype._render = function(textBounds) {
   var width = textBounds.width + this.options.backgroundPadding.left + this.options.backgroundPadding.right;
