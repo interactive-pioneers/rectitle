@@ -23,13 +23,13 @@ module.exports = function (grunt) {
         ],
         tasks: ['copy:app']
       },
-      bdd: {
+      /*bdd: {
         files: [
           '<%= yeoman.src %>/rectitle.js',
           'test/spec/test.js'
         ],
         tasks: ['mocha']
-      },
+      },*/
       livereload: {
         options: {
           livereload: '<%= connect.options.livereload %>'
