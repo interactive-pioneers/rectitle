@@ -83,8 +83,13 @@ RecTitle.prototype.render = function(target, skipAppend) {
   else if (!this.getTarget()) {
     throw new Error('Render expects target!');
   }
-  this._skipAppend = skipAppend;
-  this._preRender();
+  this._dimensions = this._calculateDimensions();
+  this.view.setAttribute('width', this._dimensions.width);
+  this.view.setAttribute('height', this._dimensions.height);
+  if (this._draw()) {
+    return skipAppend ? this.view : this.emptyTarget().appendChild(this.view);
+  }
+  return false;
 };
 
 /**
@@ -110,12 +115,12 @@ RecTitle.prototype.emptyTarget = function() {
   }
   return target;
 };
-/*
-RecTitle.prototype._calculateDimensions = function(textBounds) {
-  var width = textBounds.x + this.options.backgroundPadding.left + this.options.backgroundPadding.right;
-  var height =  + this.options.backgroundPadding.top + this.options.backgroundPadding.bottom;
+
+RecTitle.prototype._calculateDimensions = function() {
+  var width = this.getTextWidth(this.getText()) + this.options.backgroundPadding.left + this.options.backgroundPadding.right;
+  var height = this.getTextHeight(this.getText()) + this.options.backgroundPadding.top + this.options.backgroundPadding.bottom;
   return this._getTransformedDimensions(width, height);
-};*/
+};
 
 RecTitle.prototype._preRender = function() {
   this._setTextBounds(this._render.bind(this));
@@ -273,6 +278,39 @@ RecTitle.prototype.getTextWidth = function(text) {
   context.fillStyle = 'black';
   context.fillText(text, width * 0.5, height * 0.5);
   return context.measureText(text).width;
+};
+
+RecTitle.prototype.getTextHeight = function(text) {
+  var canvas = document.createElement('canvas');
+  var ctx = canvas.getContext('2d');
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.textBaseline = 'top';
+  ctx.fillStyle = 'white';
+  ctx.font = this.options.fontSize + 'px ' + this.options.fontFamily;
+  ctx.fillText(text, 0, 0);
+  var pixels = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+  var start = -1;
+  var end = -1;
+  for (var row = 0; row < canvas.height; row++) {
+    for (var column = 0; column < canvas.width; column++) {
+      var index = (row * canvas.width + column) * 4;
+      if (pixels[index] === 0) {
+        if (column === canvas.width - 1 && start !== -1) {
+          end = row;
+          row = canvas.height;
+          break;
+        }
+        continue;
+      }
+      else {
+        if (start === -1) {
+          start = row;
+        }
+        break;
+      }
+    }
+  }
+  return end - start;
 };
 
 RecTitle.prototype.getWidth = function() {
