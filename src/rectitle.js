@@ -92,22 +92,6 @@ RecTitle.prototype.render = function(target, skipAppend) {
   return false;
 };
 
-/**
- * Finalise rendering with actual measurements from pre-render.
- * TODO: remove and keep single render method (as in the master version)
- * TODO: implement PIXI algoritm for height measurements (tested to work) https://gist.github.com/videlais/9589285
- */
-RecTitle.prototype._render = function(textBounds) {
-  var width = textBounds.width + this.options.backgroundPadding.left + this.options.backgroundPadding.right;
-  var height = textBounds.height + this.options.backgroundPadding.top + this.options.backgroundPadding.bottom;
-  this._dimensions = this._getTransformedDimensions(width, height);
-  this.view.setAttribute('width', this._dimensions.width);
-  this.view.setAttribute('height', this._dimensions.height);
-  if (this._draw() && !this._skipAppend) {
-    this.emptyTarget().appendChild(this.view);
-  }
-};
-
 RecTitle.prototype.emptyTarget = function() {
   var target = this.getTarget();
   while (target.firstChild) {
@@ -120,78 +104,6 @@ RecTitle.prototype._calculateDimensions = function() {
   var width = this.getTextWidth(this.getText()) + this.options.backgroundPadding.left + this.options.backgroundPadding.right;
   var height = this.getTextHeight(this.getText()) + this.options.backgroundPadding.top + this.options.backgroundPadding.bottom;
   return this._getTransformedDimensions(width, height);
-};
-
-RecTitle.prototype._preRender = function() {
-  this._setTextBounds(this._render.bind(this));
-};
-
-/**
- * Set real visible height of text.
- * Text height by font size is unreliable and is not visibly correct.
- * Calculate by drawn pixels.
- */
-RecTitle.prototype._setTextBounds = function(callback) {
-  var canvas = document.createElement('canvas');
-  var width = this.getTextWidth(this.getText());
-  var height = this.options.fontSize;
-  canvas.setAttribute('width', width);
-  canvas.setAttribute('height', height);
-  var context = canvas.getContext('2d');
-  context.translate(0, Math.round(height * 0.8));
-  context.font = this.options.fontSize + 'px "' + this.options.fontFamily + '"';
-  context.fillStyle = '#000';
-  console.log('>> ', this.getText(), width, height, this.options.fontFamily);
-  context.fillText(this.getText(), 0, 0);
-  var debugSlot = document.createElement('div');
-  debugSlot.style.backgroundColor = 'rgba(127,127,127,0.5)';
-  debugSlot.style.backgroundRepeat = 'no-repeat';
-  debugSlot.style.position = 'absolute';
-  debugSlot.style.width = '400px';
-  debugSlot.style.height = '100px';
-  document.body.appendChild(debugSlot);
-  setTimeout(function() {
-    var bounds = {
-      x: 0,
-      y: 0,
-      width: width,
-      height: 0
-    };
-    var data = context.getImageData(0, 0, width, height).data;
-    console.log('data: ' + data.length + ' B');
-    debugSlot.style.backgroundImage = 'url(' + canvas.toDataURL('image/png') + ')';
-    var first = 0;
-    var last = 0;
-    var pxw = 0;
-    var pxh = height;
-    // last line with black pixel
-    while (!last && pxh) {
-      pxh--;
-      for (pxw = 0; pxw < width; pxw++) {
-        if (data[pxh  * width * 4 + pxw * 4 + 3]) {
-          last = pxh;
-          break;
-        }
-      }
-    }
-    pxh = height;
-    // 1st line with black pixel
-    while (pxh) {
-      pxh--;
-      for (pxw = 0; pxw < width; pxw++) {
-        if (data[pxh * width * 4 + pxw * 4 + 3]) {
-          first = pxh;
-          break;
-        }
-      }
-      if (first !== pxh) {
-        console.log('caught!', last, first);
-        bounds.height = last - first;
-      }
-    }
-    console.log('bounds', bounds.width, bounds.height);
-    callback(bounds);
-  }, 1000);
 };
 
 RecTitle.prototype._getTransformedDimensions = function(width, height) {
