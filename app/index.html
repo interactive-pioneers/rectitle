@@ -11,22 +11,9 @@
   <script src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script>
   <script>
   WebFont.load({
-    loading: function() {
-      console.log('loading');
-    },
     active: function() {
-      console.log('All fonts rendered');
       var rectitle = new RecTitle(config);
       rectitle.render(heading);
-    },
-    fontloading: function(familyName, fvd) {
-      console.log(familyName, 'loading...');
-    },
-    fontactive: function(familyName, fvd) {
-      console.log(familyName, 'rendered');
-    },
-    fontinactive: function (familyName, fvd) {
-      console.log(familyName, 'failed to render!');
     },
     google: {
       families: ['Elsie']

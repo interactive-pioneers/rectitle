@@ -327,8 +327,3 @@ RecTitle.prototype._parse = function(options) {
 RecTitle.prototype._isPixelValue = function(value) {
   return typeof value !== 'number' && (value.indexOf('px') !== -1 || value.indexOf('pt') !== -1);
 };
-
-
-
-
-
