@@ -1,4 +1,5 @@
-# rectitle [![Build Status](https://travis-ci.org/interactive-pioneers/rectitle.png?branch=master)](https://travis-ci.org/interactive-pioneers/rectitle) [![Bower version](https://badge.fury.io/bo/rectitle.png)](http://badge.fury.io/bo/rectitle) [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
+# rectitle  [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
+[![Build Status](https://travis-ci.org/interactive-pioneers/rectitle.png?branch=master)](https://travis-ci.org/interactive-pioneers/rectitle) [![Bower version](https://badge.fury.io/bo/rectitle.png)](http://badge.fury.io/bo/rectitle)
 
 Dynamic HTML 5 Canvas title component with horisontal skewing and masking.
 
