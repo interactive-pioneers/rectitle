@@ -15,7 +15,48 @@ Dynamic HTML 5 Canvas title component with horisontal skewing and masking.
 | 9+ | 7+   | 31+           | 26+      | 19+    |
 
 ## Example
-The following code achieves the image included above:
+### With WebFont support (achieving the example image above)
+```html
+<!doctype html>
+<html>
+<head>
+  <title>rectitle WebFont example</title>
+  <link href='http://fonts.googleapis.com/css?family=Elsie' rel='stylesheet' type='text/css'>
+  <script src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script>
+</head>
+<body>
+  <h1>headline</h1>
+  <script src="scripts/rectitle.js"></script>
+  <script>
+    var heading = document.querySelectorAll('h1')[0];
+    var config = {
+      backgroundColor: '#000',
+      mask: true,
+      horizontalSkew: -0.05,
+      backgroundPadding: {
+        left: 10,
+        top: 10,
+        bottom: 10,
+        right: 10
+      },
+      backgroundOpacity: 0.8,
+      fontFamily: 'Elsie'
+    };
+    WebFont.load({
+      active: function() {
+        var rectitle = new RecTitle(config);
+        rectitle.render(heading);
+      },
+      google: {
+        families: ['Elsie']
+      }
+    });
+  </script>
+</body>
+</html>
+```
+
+### With system font
 ```html
 <h1>Headline</h1>
 <script src="scripts/rectitle.js"></script>
@@ -36,7 +77,6 @@ The following code achieves the image included above:
   var rectitle = new RecTitle(config);
   rectitle.render(heading);
 </script>
-
 ```
 
 # Options
