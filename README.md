@@ -2,8 +2,6 @@
 
 Dynamic HTML 5 Canvas title component with horisontal skewing and masking.
 
-__ACHTUNG!__ Current version does not support WebFonts.
-
 ![Example](app/images/example-headline.png)
 
 ## Installation
