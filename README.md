@@ -3,7 +3,7 @@
 
 Dynamic HTML 5 Canvas title component with horisontal skewing and masking.
 
-![Example](app/images/example-headline.png)
+<img src="app/images/example-headline.png" alt="Example headline" style="width:327px;">
 
 ## Installation
 `bower install rectitle`
