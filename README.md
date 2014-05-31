@@ -1,9 +1,9 @@
 # rectitle  [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
-[![Build Status](https://travis-ci.org/interactive-pioneers/rectitle.png?branch=master)](https://travis-ci.org/interactive-pioneers/rectitle) [![Bower version](https://badge.fury.io/bo/rectitle.png)](http://badge.fury.io/bo/rectitle)
+[![Build Status](http://img.shields.io/travis/interactive-pioneers/rectitle.svg)](https://travis-ci.org/interactive-pioneers/rectitle) [![Bower version](https://badge.fury.io/bo/rectitle.png)](http://badge.fury.io/bo/rectitle)
 
 Dynamic HTML 5 Canvas title component with horisontal skewing and masking.
 
-<img src="app/images/example-headline.png" alt="Example headline" style="width:327px;">
+<img src="app/images/example-headline@2x.png" alt="Example headline" width="327" height="156">
 
 ## Installation
 `bower install rectitle`
